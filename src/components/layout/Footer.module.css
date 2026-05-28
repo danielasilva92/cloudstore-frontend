@@ -1,0 +1,60 @@
+.footer { 
+    background: var(--ink); 
+    color: rgba(255,255,255,0.5); 
+    margin-top: 120px; 
+    padding: 60px 40px 40px; 
+}
+
+.inner { 
+    max-width: 1280px; 
+    margin: 0 auto; 
+    display: grid; 
+    grid-template-columns: 1fr auto; 
+    grid-template-rows: auto auto; 
+    gap: 32px; 
+}
+
+.brand { 
+    grid-column: 1; 
+}
+
+.logo { 
+    font-family: var(--font-display); 
+    font-size: 26px; 
+    color: var(--sage-light); 
+}
+
+.logo em { 
+    font-style: italic; 
+    color: var(--sage); 
+}
+
+.tagline { 
+    font-size: 13px; 
+    margin-top: 6px; 
+    color: rgba(255,255,255,0.3); 
+}
+.links { 
+    display: flex; 
+    gap: 28px; 
+    grid-column: 2; 
+}
+.links a { 
+    font-size: 12px; 
+    letter-spacing: 0.08em; 
+    text-transform: uppercase; 
+    color: rgba(255,255,255,0.4); 
+    transition: color var(--transition); 
+}
+.links a:hover { 
+    color: var(--sage-light); 
+}
+.copy { 
+    grid-column: 1 / -1; 
+    font-size: 11px; 
+    color: rgba(255,255,255,0.2); 
+    text-align: center; 
+    border-top: 1px solid rgba(255,255,255,0.06); 
+    padding-top: 28px; 
+    margin-top: 8px; 
+}
