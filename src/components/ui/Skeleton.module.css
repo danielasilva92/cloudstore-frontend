@@ -1,0 +1,9 @@
+.skeleton {
+  background: linear-gradient(90deg, var(--sage-pale) 25%, var(--sage-mist) 50%, var(--sage-pale) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+.card { 
+    display: flex; 
+    flex-direction: column; 
+}
