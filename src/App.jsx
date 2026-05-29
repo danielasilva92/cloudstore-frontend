@@ -11,6 +11,7 @@ import HomePage   from './pages/HomePage';
 import ShopPage   from './pages/ShopPage';
 import OrdersPage from './pages/OrdersPage';
 import './styles/globals.css';
+import WishlistPage from './pages/WishlistPage';
 
 function AppShell() {
   const [authOpen, setAuthOpen] = useState(false);
@@ -26,6 +27,7 @@ function AppShell() {
         <Route path="/"       element={<HomePage   onAuthOpen={openAuth} />} />
         <Route path="/shop"   element={<ShopPage   onAuthOpen={openAuth} />} />
         <Route path="/orders" element={<OrdersPage onAuthOpen={openAuth} />} />
+        <Route path="/wishlist" element={<WishlistPage onAuthOpen={openAuth} />} />
         <Route path="*"       element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />

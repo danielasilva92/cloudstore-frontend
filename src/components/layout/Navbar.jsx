@@ -29,6 +29,7 @@ export default function Navbar({ onCartOpen, onAuthOpen }) {
         <ul className={`${styles.links} ${menuOpen ? styles.open : ''}`}>
           <li><Link to="/" className={styles.link}>Hem</Link></li>
           <li><Link to="/shop" className={styles.link}>Butik</Link></li>
+          <li><Link to="/wishlist">Favoriter</Link></li>
           {isLoggedIn && <li><Link to="/orders" className={styles.link}>Beställningar</Link></li>}
         </ul>
         <div className={styles.actions}>
