@@ -24,6 +24,10 @@ export default function OrdersPage({ onAuthOpen }) {
     </div>
   );
 
+  // Räknar ut totalpris för en order med flera items
+  const orderTotal = (order) =>
+    (order.items || []).reduce((sum, it) => sum + it.price * it.quantity, 0);
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -45,16 +49,20 @@ export default function OrdersPage({ onAuthOpen }) {
               <div key={order.id} className={styles.card}>
                 <div className={styles.cardLeft}>
                   <span className={styles.orderNum}>Beställning #{order.id}</span>
-                  <p className={styles.productName}>{truncate(order.productTitle, 48)}</p>
+                  <div className={styles.itemList}>
+                    {(order.items || []).map(it => (
+                      <p key={it.id} className={styles.productName}>
+                        {it.quantity} × {truncate(it.productTitle, 40)}
+                      </p>
+                    ))}
+                  </div>
                   <div className={styles.meta}>
-                    <span>{order.quantity} st</span>
-                    <span className={styles.dot}>·</span>
                     <span>{formatDate(order.createdAt)}</span>
                   </div>
                 </div>
                 <div className={styles.cardRight}>
-                  <span className={styles.price}>{formatPrice(order.price * order.quantity)}</span>
-                  <span className={styles.status}>✓ Bekräftad</span>
+                  <span className={styles.price}>{formatPrice(orderTotal(order))}</span>
+                  <span className={styles.status}>✓ {order.status === 'CREATED' ? 'Bekräftad' : order.status}</span>
                 </div>
               </div>
             ))}

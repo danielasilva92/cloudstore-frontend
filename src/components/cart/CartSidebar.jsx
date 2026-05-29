@@ -17,9 +17,13 @@ export default function CartSidebar({ onClose, onAuthOpen }) {
     if (!isLoggedIn) { onClose(); onAuthOpen(); return; }
     setLoading(true);
     try {
-      for (const item of items) {
-        await createOrder({ productId: item.id, productTitle: item.title, price: item.price, quantity: item.qty });
-      }
+      // Skicka hela korgen som EN beställning med flera items
+      await createOrder({
+        items: items.map(item => ({
+          productId: item.id,
+          quantity: item.qty,
+        })),
+      });
       clearCart(); onClose();
       show('✦ Beställning genomförd!');
     } catch {
