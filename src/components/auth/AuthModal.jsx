@@ -28,6 +28,7 @@ export default function AuthModal({ onClose }) {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
+    setErrors({});
     try {
       const data = isLogin
         ? await apiLogin({ username: form.username, password: form.password })
@@ -36,10 +37,35 @@ export default function AuthModal({ onClose }) {
       onClose();
       show(`✦ Välkommen${isLogin ? ' tillbaka' : ''}, ${data.username || form.username}!`);
     } catch (err) {
-      show(err.response?.status === 401 ? 'Fel användarnamn eller lösenord.' : 'Något gick fel.', 'error');
+      handleApiError(err);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Visar backend-fel
+  const handleApiError = (err) => {
+    const status = err.response?.status;
+    const body = err.response?.data;
+
+    if (status === 401) {
+      show('Fel användarnamn eller lösenord.', 'error');
+      return;
+    }
+
+    // 400 med fältfel
+    if (status === 400 && body && typeof body === 'object' && !body.error) {
+      setErrors(body);
+      return;
+    }
+
+    // 400/409 med allmänt fel
+    if (body?.error) {
+      show(body.error, 'error');
+      return;
+    }
+
+    show('Något gick fel. Försök igen.', 'error');
   };
 
   const set = (k) => (e) => {
@@ -58,6 +84,11 @@ export default function AuthModal({ onClose }) {
           {!isLogin && <Input label="E-post" type="email" placeholder="din@email.com" value={form.email} onChange={set('email')} error={errors.email} />}
           <Input label="Användarnamn" type="text" placeholder="ditt namn" value={form.username} onChange={set('username')} error={errors.username} />
           <Input label="Lösenord" type="password" placeholder="••••••••" value={form.password} onChange={set('password')} error={errors.password} />
+          {!isLogin && (
+            <p className={styles.hint}>
+              Minst 6 tecken, en stor bokstav, en siffra och ett specialtecken.
+            </p>
+          )}
           <Button type="submit" size="lg" loading={loading} style={{ width: '100%', marginTop: 8 }}>
             {isLogin ? 'Logga in' : 'Skapa konto'}
           </Button>
