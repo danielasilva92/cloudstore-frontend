@@ -25,6 +25,11 @@ export default function HomePage({ onAuthOpen }) {
       <div className={styles.heroWrap}><Hero /></div>
       <div className={styles.shopSection}>
         <div className={styles.sectionHeader}>
+          <div className={styles.eyebrow}>
+            <span className={styles.eyebrowLine} />
+            <span className={styles.eyebrowText}>Sortiment</span>
+            <span className={styles.eyebrowFill} />
+          </div>
           <h2 className={styles.sectionTitle}>Alla <em>produkter</em></h2>
           <p className={styles.sectionSub}>Välkurerat sortiment direkt från FakeStore</p>
         </div>
