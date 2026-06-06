@@ -23,7 +23,7 @@ userApi.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem('cs_token');
       localStorage.removeItem('cs_user');
-      window.location.href = '/';
+     
     }
     return Promise.reject(err);
   }

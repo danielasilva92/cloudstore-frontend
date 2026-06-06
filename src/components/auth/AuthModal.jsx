@@ -48,7 +48,7 @@ export default function AuthModal({ onClose }) {
     const status = err.response?.status;
     const body = err.response?.data;
 
-    if (status === 401) {
+    if (status === 401 || status === 403) {
       show('Fel användarnamn eller lösenord.', 'error');
       return;
     }
@@ -69,21 +69,50 @@ export default function AuthModal({ onClose }) {
   };
 
   const set = (k) => (e) => {
-    setForm(f => ({ ...f, [k]: e.target.value }));
-    if (errors[k]) setErrors(p => ({ ...p, [k]: null }));
+    setForm((f) => ({ ...f, [k]: e.target.value }));
+    if (errors[k]) setErrors((p) => ({ ...p, [k]: null }));
   };
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={e => e.stopPropagation()}>
-        <button className={styles.close} onClick={onClose}>✕</button>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.close} onClick={onClose}>
+          ✕
+        </button>
         <div className={styles.accent} />
         <h2 className={styles.title}>{isLogin ? 'Välkommen tillbaka' : 'Skapa konto'}</h2>
-        <p className={styles.subtitle}>{isLogin ? 'Logga in för att fortsätta handla.' : 'Registrera dig för en bättre upplevelse.'}</p>
+        <p className={styles.subtitle}>
+          {isLogin
+            ? 'Logga in för att fortsätta handla.'
+            : 'Registrera dig för en bättre upplevelse.'}
+        </p>
         <form onSubmit={handleSubmit} className={styles.form}>
-          {!isLogin && <Input label="E-post" type="email" placeholder="din@email.com" value={form.email} onChange={set('email')} error={errors.email} />}
-          <Input label="Användarnamn" type="text" placeholder="ditt namn" value={form.username} onChange={set('username')} error={errors.username} />
-          <Input label="Lösenord" type="password" placeholder="••••••••" value={form.password} onChange={set('password')} error={errors.password} />
+          {!isLogin && (
+            <Input
+              label="E-post"
+              type="email"
+              placeholder="din@email.com"
+              value={form.email}
+              onChange={set('email')}
+              error={errors.email}
+            />
+          )}
+          <Input
+            label="Användarnamn"
+            type="text"
+            placeholder="ditt namn"
+            value={form.username}
+            onChange={set('username')}
+            error={errors.username}
+          />
+          <Input
+            label="Lösenord"
+            type="password"
+            placeholder="••••••••"
+            value={form.password}
+            onChange={set('password')}
+            error={errors.password}
+          />
           {!isLogin && (
             <p className={styles.hint}>
               Minst 6 tecken, en stor bokstav, en siffra och ett specialtecken.
@@ -94,9 +123,15 @@ export default function AuthModal({ onClose }) {
           </Button>
         </form>
         <div className={styles.switch}>
-          {isLogin
-            ? <>Inget konto? <button onClick={() => setMode('register')}>Registrera dig</button></>
-            : <>Har redan ett konto? <button onClick={() => setMode('login')}>Logga in</button></>}
+          {isLogin ? (
+            <>
+              Inget konto? <button onClick={() => setMode('register')}>Registrera dig</button>
+            </>
+          ) : (
+            <>
+              Har redan ett konto? <button onClick={() => setMode('login')}>Logga in</button>
+            </>
+          )}
         </div>
       </div>
     </div>
